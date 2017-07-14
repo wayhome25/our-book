@@ -20,21 +20,27 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-secret_file = os.path.join(BASE_DIR, 'secrets.json')
 
-with open(secret_file) as f:
-    secrets = json.loads(f.read())
-
-def get_secret(settings, secrets=secrets):
+# 비밀파일패턴 적용을 위한 메소드
+def get_secret(settings):
     """비밀 변수를 가져오거나 명시적 예외를 반환한다."""
+    secret_file = os.path.join(BASE_DIR, 'secrets.json')
+
+    with open(secret_file) as f:
+        secrets = json.loads(f.read())
+
     try:
         return secrets[settings]
     except KeyError:
         error_msg = "Set the {} environment variable".format(settings)
         raise ImproperlyConfigured(error_msg)
 
+# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = get_secret("SECRET_KEY")
+
+# naver api 설정
+CLIENT_ID = get_secret("CLIENT_ID")
+CLIENT_SECRET = get_secret("CLIENT_SECRET")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -55,7 +61,7 @@ INSTALLED_APPS = [
 
     'django_extensions',
 
-    'proto', # App for local
+    'proto',  # App for local
 ]
 
 MIDDLEWARE = [
