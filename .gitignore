@@ -201,3 +201,4 @@ pip-selfcheck.json
 .idea/
 secrets.json
 proto/
+jupyter/
