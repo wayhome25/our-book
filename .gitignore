@@ -202,3 +202,4 @@ pip-selfcheck.json
 secrets.json
 proto/
 jupyter/
+*.ipynb
