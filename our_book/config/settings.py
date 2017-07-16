@@ -61,8 +61,13 @@ INSTALLED_APPS = [
 
     'django_extensions',
 
+    'accounts',
     'proto',  # App for local
 ]
+
+
+# AUTHENTICATION
+AUTH_USER_MODEL = 'accounts.MyUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
