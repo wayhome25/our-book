@@ -60,11 +60,13 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
         default='개발'
     )
     avatar = ProcessedImageField(
+        verbose_name='프로필 사진',
+        help_text='선택사항',
         upload_to='accounts/avatar/',
         processors=[ResizeToFill(150, 150)],
         format='JPEG',
         options={'quality': 90},
-        blank=True
+        blank=True,
     )
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
