@@ -21,8 +21,10 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^accounts/', include('accounts.urls')),
 ]
 
+# NOTE: serving media files uploaded by a user during development
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if 'proto' in settings.INSTALLED_APPS:
