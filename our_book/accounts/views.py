@@ -10,7 +10,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)  # note 자동 로그인
-            return redirect('login')  # fixme 차후에 root 경로로 변경할 것
+            return  redirect('index')# fixme 차후에 root 경로로 변경할 것
     else:
         form = SignupForm()
     return render(request, 'accounts/signup.html', {'form': form})
