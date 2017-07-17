@@ -1,3 +1,4 @@
+from django.core.mail import send_mail
 from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager, PermissionsMixin)
@@ -31,7 +32,7 @@ class MyUserManager(BaseUserManager):
         return user
 
 
-class MyUser(AbstractBaseUser, PermissionsMixin):
+class MyUser(AbstractBaseUser):
     email = models.EmailField(
         verbose_name='email',
         max_length=255,
@@ -68,6 +69,9 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
         options={'quality': 90},
         blank=True,
     )
+    bio = models.CharField('소개', max_length=200, blank=True)
+    birth_date = models.DateField('생일', null=True, blank=True)
+    date_joined = models.DateTimeField('가입일', auto_now_add=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
@@ -96,6 +100,10 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
         """Does the user have permissions to view the app `app_label`?"""
         # Simplest possible answer: Yes, always
         return True
+
+    def email_user(self, subject, message, from_email=None, **kwargs):
+        # Send an email to this User
+        send_mail(subject, message, from_email, [self.email], **kwargs)
 
     @property
     def is_staff(self):
