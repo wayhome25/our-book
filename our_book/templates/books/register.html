@@ -3,7 +3,7 @@
 
 {% block title %}OUR BOOK - 신규도서등록{% endblock %}
 
-{% block menu %}신규 도서 등록{% endblock %}
+{% block menu %}도서 등록{% endblock %}
 
 {% block seach_input %}
     <input type="text" class="form-control" placeholder="Search" name="keyword-register">
@@ -17,6 +17,9 @@
     {% for book in books %}
         {% include 'include/book.html' with type='register' %}
     {% endfor %}
+{% else %}
+    <h2>도서 등록</h2>
+    <p>새롭게 추가된 도서를 검색하고, 도서 목록에 추가합니다.</p>
 {% endif %}
 
 {% endblock %}

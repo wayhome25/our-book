@@ -13,9 +13,13 @@
 
 {% if books %}
     <h2>검색 결과</h2>
+    <h4>희망 도서를 구매 요청 할 수 있습니다 </h4>
     {% for book in books %}
         {% include 'include/book.html' %}
     {% endfor %}
+{% else %}
+    <h2>희망 도서 신청</h2>
+    <p>구매를 희망하는 도서를 검색하고, 구매 신청을 진행합니다.</p>
 {% endif %}
 
 {% endblock %}
