@@ -1,11 +1,15 @@
+{% load book_extras %}
+
+
 <div class="media">
-  <div class="media-left">
+  <div class="media-left media-middle">
     <a href="{{ book.link }}">
       <img class="media-object" src="{{ book.image }}" alt="{{ book.title }}">
     </a>
   </div>
   <div class="media-body">
-    <h4 class="media-heading">{{ book.title|safe }}</h4>
-    {{ book.description|safe }}
+    <h4 class="media-heading">{{ book.title|book_title|safe }}</h4>
+      {{ book.author|safe }} | {{ book.publisher|safe }} | {{ book.pubdate|book_pub_date }}<br>
+      {{ book.description|safe }}
   </div>
 </div>
