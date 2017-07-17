@@ -1,0 +1,11 @@
+<div class="media">
+  <div class="media-left">
+    <a href="{{ book.link }}">
+      <img class="media-object" src="{{ book.image }}" alt="{{ book.title }}">
+    </a>
+  </div>
+  <div class="media-body">
+    <h4 class="media-heading">{{ book.title|safe }}</h4>
+    {{ book.description|safe }}
+  </div>
+</div>

@@ -1,0 +1,36 @@
+{% extends "base.html"  %}
+
+
+{% block title %}OUR BOOK - 도서구매신청{% endblock %}
+
+{% block menu %}도서 구매 신청{% endblock %}
+
+{% block seach_input %}
+<input type="text" class="form-control" placeholder="Search" name="keyword-puchase">
+{% endblock %}
+
+{% block content %}
+<h1>검색 결과</h1>
+
+
+{% for book in books %}
+    {% include 'include/book.html' %}
+
+{#    <ul>#}
+{#        <li><img src="{{ book.image }}" alt=""></li>#}
+{#        <li>{{ book.title|safe }}</li>#}
+{#        <li>{{ book.author|safe }}</li>#}
+{#        <li>{{ book.description|safe }}</li>#}
+{#        <li>{{ book.price }}</li>#}
+{#        <li>{{ book.discount }}</li>#}
+{#        <li>{{ book.publisher|safe }}</li>#}
+{#        <li>{{ book.pubdate }}</li>#}
+{#        <li>{{ book.link }}</li>#}
+{#    </ul>#}
+{% endfor %}
+{% endblock %}
+
+
+
+
+
