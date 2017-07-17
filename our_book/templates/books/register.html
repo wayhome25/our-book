@@ -1,0 +1,27 @@
+{% extends "base.html"  %}
+
+
+{% block title %}OUR BOOK - 신규도서등록{% endblock %}
+
+{% block menu %}신규 도서 등록{% endblock %}
+
+{% block seach_input %}
+    <input type="text" class="form-control" placeholder="Search" name="keyword-register">
+{% endblock %}
+
+{% block content %}
+
+{% if books %}
+    <h2>검색 결과</h2>
+    <h4>구매한 신규 도서를 등록합니다.</h4>
+    {% for book in books %}
+        {% include 'include/book.html' with type='register' %}
+    {% endfor %}
+{% endif %}
+
+{% endblock %}
+
+
+
+
+

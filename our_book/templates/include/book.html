@@ -10,7 +10,11 @@
         <a href="{{ book.link }}" class="btn btn-default btn-xs"> 도서 상세 정보 </a>
     </div>
     <div class="media-body">
-        <a href="#" class="btn btn-sm btn-primary pull-right"> 도서 구매 신청 </a>
+        {% if type == 'register' %}
+            <a href="#" class="btn btn-sm btn-warning pull-right"> 도서 등록 </a>
+        {% else %}
+            <a href="#" class="btn btn-sm btn-primary pull-right"> 도서 구매 신청 </a>
+        {% endif %}
         <h4> <class="media-heading">{{ book.title|book_title|safe }}</h4>
         <p class="book-info">{{ book.author|safe }} | {{ book.publisher|safe }} | {{ book.pubdate|book_pub_date }} | <span class="text-primary">{{ book.price |intcomma }}원</span><br>
             <small>{{ book.description|safe }}</small>
