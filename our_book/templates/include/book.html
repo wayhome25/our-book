@@ -17,10 +17,11 @@
                 <input type="submit" href="#" class="btn btn-sm btn-warning pull-right" value="도서등록">
             </form>
         {% else %}
-            <input type="submit" href="#" class="btn btn-sm btn-primary pull-right"> 도서 구매 신청 </input>
+            <input type="submit" href="#" class="btn btn-sm btn-primary pull-right" value="구매신청">
         {% endif %}
-        <h4> <class="media-heading">{{ book.title|book_title|safe }}</h4>
-        <p class="book-info">{{ book.author|safe }} | {{ book.publisher|safe }} | {{ book.pubdate|book_pub_date }} | <span class="text-primary">{{ book.price |intcomma }}원</span><br>
+        <h4 class="media-heading">{{ book.title|book_title|safe }}</h4>
+        <p class="book-info">{{ book.author|safe }} | {{ book.publisher|safe }} | {{ book.pubdate|book_pub_date }} |
+            <span class="text-primary">{{ book.price |intcomma }}원</span><br>
             <small>{{ book.description|safe }}</small>
         </p>
     </div>

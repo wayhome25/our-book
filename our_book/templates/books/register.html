@@ -10,17 +10,22 @@
 {% endblock %}
 
 {% block content %}
-
-{% if books %}
-    <h2>검색 결과</h2>
-    <h4>구매한 신규 도서를 등록합니다.</h4>
-    {% for book in books %}
-        {% include 'include/book.html' with type='register' %}
-    {% endfor %}
-{% else %}
-    <h2>도서 등록</h2>
-    <p>새롭게 추가된 도서를 검색하고, 도서 목록에 추가합니다.</p>
-{% endif %}
+    {% if books %}
+        <h2>검색 결과</h2>
+        <h4>구매한 신규 도서를 등록합니다.</h4>
+        {% for book in books %}
+            {% include 'include/book.html' with type='register' %}
+        {% endfor %}
+    {% else %}
+        <h2>도서 등록</h2>
+        <p>새롭게 구매한 책을 검색하고, 도서 목록에 등록합니다.</p>
+        <form class="" action="" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" class="body-search-input form-control input-lg" placeholder="Search" name="keyword-register">
+            </div>
+        </form>
+    {% endif %}
 
 {% endblock %}
 
