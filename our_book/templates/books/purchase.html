@@ -6,28 +6,18 @@
 {% block menu %}도서 구매 신청{% endblock %}
 
 {% block seach_input %}
-<input type="text" class="form-control" placeholder="Search" name="keyword-puchase">
+    <input type="text" class="form-control" placeholder="Search" name="keyword-puchase">
 {% endblock %}
 
 {% block content %}
-<h1>검색 결과</h1>
 
+{% if books %}
+    <h2>검색 결과</h2>
+    {% for book in books %}
+        {% include 'include/book.html' %}
+    {% endfor %}
+{% endif %}
 
-{% for book in books %}
-    {% include 'include/book.html' %}
-
-{#    <ul>#}
-{#        <li><img src="{{ book.image }}" alt=""></li>#}
-{#        <li>{{ book.title|safe }}</li>#}
-{#        <li>{{ book.author|safe }}</li>#}
-{#        <li>{{ book.description|safe }}</li>#}
-{#        <li>{{ book.price }}</li>#}
-{#        <li>{{ book.discount }}</li>#}
-{#        <li>{{ book.publisher|safe }}</li>#}
-{#        <li>{{ book.pubdate }}</li>#}
-{#        <li>{{ book.link }}</li>#}
-{#    </ul>#}
-{% endfor %}
 {% endblock %}
 
 
