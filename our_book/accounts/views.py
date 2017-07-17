@@ -1,8 +1,10 @@
-from django.contrib.auth import login
-from django.shortcuts import render, redirect
+from django.contrib.auth import login, get_user_model
+from django.shortcuts import get_object_or_404, render, redirect
 
 from .forms import SignupForm
 
+
+User = get_user_model()
 
 def signup(request):
     if request.method == 'POST':
@@ -14,3 +16,10 @@ def signup(request):
     else:
         form = SignupForm()
     return render(request, 'accounts/signup.html', {'form': form})
+
+
+def profile(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    return render(request, 'accounts/profile.html', {'user': user})
+
+

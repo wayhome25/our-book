@@ -2,7 +2,9 @@ appnope==0.1.0
 bleach==2.0.0
 decorator==4.0.11
 Django==1.11.3
+django-appconf==1.0.2
 django-extensions==1.8.1
+django-imagekit==4.0.1
 entrypoints==0.2.3
 html5lib==0.999999999
 ipykernel==4.6.1
@@ -19,9 +21,12 @@ mistune==0.7.4
 nbconvert==5.2.1
 nbformat==4.3.0
 notebook==5.0.0
+olefile==0.44
 pandocfilters==1.4.1
 pexpect==4.2.1
 pickleshare==0.7.4
+pilkit==2.0
+Pillow==4.2.1
 prompt-toolkit==1.0.14
 psycopg2==2.7.1
 ptyprocess==0.5.2

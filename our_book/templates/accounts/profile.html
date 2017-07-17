@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{{ user.email }} 의 프로필</h1>
+    <ul>
+        {% if user.avatar %}
+        <li>프로필사진:  <img src="{{ user.avatar.url }}" alt=""></li>
+        {% endif %}
+        <li>닉네임 : {{ user.nickname }}</li>
+        <li>소개 : {{ user.bio }}</li>
+        <li>팀 : {{ user.team }}</li>
+        <li>생일 : {{ user.birth_date }}</li>
+    </ul>
+
+
+{% endblock %}
