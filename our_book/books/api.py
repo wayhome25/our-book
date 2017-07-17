@@ -64,7 +64,7 @@ def register_book(isbn):
             isbn13=item['isbn'].split(' ')[-1],
             link=item['link'],
             price=int(item['price']),
-            discount=int(item['discount']),
+            discount=int(item['discount']) if item['discount'] else None,
             pubdate=item['pubdate'],
         )
         message = '등록완료!'
