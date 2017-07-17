@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'django_extensions',
 
     'accounts',
+    'books',
     'proto',  # App for local
 ]
 
