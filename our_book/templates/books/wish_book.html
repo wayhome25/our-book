@@ -28,7 +28,7 @@
         </form>
         <hr>
         <h2>{% now 'M'%} 희망 도서 신청 현황</h2>
-        <p><strong>구매 가능 총 금액 : 300,000원 / 구매 신청 누적금액 : {{ total_price.total|intcomma }}원</strong><br>구매 가능 금액은 매달 1일 갱신됩니다. </p>
+        <p><strong>구매 가능 총 금액 : 300,000원 / 구매 신청 누적금액 : {{ total_price|intcomma }}원</strong><br>구매 가능 금액은 매달 1일 갱신됩니다. </p>
         {% for book in wish_books %}
             {% include 'include/book.html' with type='wish_save'%}
         {% endfor %}

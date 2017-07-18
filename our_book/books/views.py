@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models.aggregates import Sum
@@ -24,7 +26,8 @@ def wish_books(request):
         return render(request, 'books/wish_book.html', {'books': books})
     else:
         wish_books = WishBook.objects.all()
-        total_price = wish_books.aggregate(total=Sum('price'))
+        month = datetime.datetime.now().month
+        total_price = WishBook.get_total_price(month)
         return render(request, 'books/wish_book.html', {
             'wish_books': wish_books,
             'total_price': total_price,

@@ -1,4 +1,6 @@
-from datetime import timedelta
+from datetime import timedelta, datetime
+
+from django.db.models.aggregates import Sum
 from django.utils import timezone
 from django.conf import settings
 from django.db import models
@@ -69,3 +71,9 @@ class WishBook(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+
+    # 월별 총액
+    @classmethod
+    def get_total_price(cls, month):
+        total_price = cls.objects.filter(created_at__month=month).aggregate(total=Sum('price'))
+        return total_price['total']
