@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.http import require_POST
 
@@ -41,12 +42,22 @@ def register_save(request):
     return redirect('books:register')
 
 
+@login_required
 @require_POST
 def rent(request, pk):
     book = get_object_or_404(Book, pk=pk)
-    if not book.rent_user:
-        book.rent_book(request.user)
-        messages.info(request, '대여성공! 반납 예정일은 {} 입니다.'.format(book.rent_end.date()))
+    book.rent_book(request.user)
+    messages.info(request, '대여성공! 반납 예정일은 {} 입니다.'.format(book.rent_end.date()))
+    return redirect('mybook')
+
+
+@login_required
+@require_POST
+def return_book(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    if book.rent_user == request.user:
+        book.return_book()
+        messages.info(request, '반납성공!')
     else:
-        messages.info(request, '현재 대여중인 도서입니다.')
-    return redirect('books:list')
+        messages.error(request, '문제가 발생했습니다.')
+    return redirect('mybook')

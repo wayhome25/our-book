@@ -1,7 +1,9 @@
 from django.contrib.auth import login, get_user_model
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render, redirect
 
 from .forms import SignupForm
+from books.models import Book
 
 
 User = get_user_model()
@@ -23,3 +25,12 @@ def profile(request, pk):
     return render(request, 'accounts/profile.html', {'user': user})
 
 
+@login_required
+def mybook(request):
+    if request.method == 'POST':
+        keyword = request.POST['keyword-list']
+        books = Book.objects.filter(title__icontains=keyword)
+        return render(request, 'books/list.html', {'books': books})
+    else:
+        books = request.user.book_set.all().order_by('rent_end')
+        return render(request, 'accounts/mybook.html', {'books': books})

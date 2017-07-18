@@ -37,9 +37,13 @@ class Book(models.Model):
         self.save()
 
     # 반납 메소드
-    def return_book(self, user):
+    def return_book(self):
         self.rent_user = None
         self.rent_start = None
         self.rent_end = None
+        self.save()
 
-
+    # 연체여부 확인
+    @property
+    def check_overdue(self):
+        return self.rent_end < timezone.localtime(timezone.now())
