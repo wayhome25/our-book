@@ -3,6 +3,7 @@
 
 
 <div class="media">
+    <hr>
     <div class="media-left media-middle">
         <a href="{{ book.link }}">
             <img class="media-object" src="{{ book.image }}" alt="{{ book.title }}">
@@ -14,10 +15,19 @@
             <form action="{% url 'books:register_save' %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="isbn" value="{{ book.isbn }}">
-                <input type="submit" href="#" class="btn btn-sm btn-warning pull-right" value="도서등록">
+                <input type="submit" class="btn btn-sm btn-warning pull-right" value="도서등록">
             </form>
         {% elif type == 'purchase' %}
             <input type="submit" href="#" class="btn btn-sm btn-primary pull-right" value="구매신청">
+        {% elif type == 'list' %}
+            {% if not book.rent_user %}
+             <form action="{% url 'books:rent' book.id %}" method="post">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-sm btn-success pull-right" value="대여신청">
+            </form>
+            {% else %}
+                <button type="button" class="btn btn-sm btn-default pull-right disabled">{{ book.rent_user.nickname }}님 대출중 <br> 반납예정일 : {{ book.rent_end.date }}</button>
+            {% endif %}
         {% endif %}
         <h4 class="media-heading">{{ book.title|book_title|safe }}</h4>
         <p class="book-info">{{ book.author|safe }} | {{ book.publisher|safe }} | {{ book.pubdate|book_pub_date }} |
@@ -25,5 +35,6 @@
             <small>{{ book.description|safe }}</small>
         </p>
     </div>
+
 </div>
 

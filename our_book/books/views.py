@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.http import require_POST
 
 from .api import get_book_info, register_book
@@ -7,7 +7,11 @@ from .models import Book
 
 
 def list(request):
-    books = Book.objects.all()
+    if request.method == 'POST':
+        keyword = request.POST['keyword-list']
+        books = Book.objects.filter(title__icontains=keyword)
+    else:
+        books = Book.objects.all()
     return render(request, 'books/list.html', {'books': books})
 
 
@@ -36,3 +40,13 @@ def register_save(request):
     messages.info(request, result)
     return redirect('books:register')
 
+
+@require_POST
+def rent(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    if not book.rent_user:
+        book.rent_book(request.user)
+        messages.info(request, '대여성공! 반납 예정일은 {} 입니다.'.format(book.rent_end.date()))
+    else:
+        messages.info(request, '현재 대여중인 도서입니다.')
+    return redirect('books:list')

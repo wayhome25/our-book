@@ -13,13 +13,14 @@
 
     {% if books %}
         <h2>사내도서 전체목록</h2>
+        <p>사내 도서를 검색하고 대여신청(7일)을 할 수 있어요.</p>
         <h4></h4>
         {% for book in books %}
-            {% include 'include/book.html' %}
+            {% include 'include/book.html' with type='list' %}
         {% endfor %}
     {% else %}
-        <h2>도서가 없습니다.</h2>
-        <p>도서 구매신청 메뉴를 통해서 원하는 책을 신청할 수 있어요! :)</p>
+        <h2>찾으시는 도서가 없습니다.</h2>
+        <p><a href="{% url 'books:purchase' %}">도서 구매신청</a> 메뉴를 통해서 원하는 책을 신청할 수 있어요! :)</p>
     {% endif %}
 
 {% endblock %}
