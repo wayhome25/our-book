@@ -47,3 +47,25 @@ class Book(models.Model):
     @property
     def check_overdue(self):
         return self.rent_end < timezone.localtime(timezone.now())
+
+
+class WishBook(models.Model):
+    # 도서정보
+    title = models.CharField(max_length=100)
+    author = models.CharField(max_length=100)
+    publisher = models.CharField(max_length=100)
+    description = models.CharField(max_length=300)
+    isbn = models.CharField(max_length=50, unique=True)
+    isbn13 = models.CharField(max_length=20, unique=True)
+    image = models.URLField()
+    link = models.URLField()
+    price = models.PositiveIntegerField()
+    discount = models.PositiveIntegerField(null=True, blank=True)
+    pubdate = models.CharField(max_length=10)
+
+    # 추가정보
+    created_at = models.DateTimeField(auto_now_add=True)
+    wish_user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
+
+    class Meta:
+        ordering = ['-created_at']

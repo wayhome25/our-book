@@ -3,7 +3,7 @@ import json
 import re
 import urllib.request
 
-from .models import Book
+from .models import Book, WishBook
 
 
 def get_book_info(title, display='3', sort='count'):
@@ -28,14 +28,14 @@ def get_book_info(title, display='3', sort='count'):
         print("Error Code:" + rescode)
 
 
-def register_book(isbn):
+def register_book(isbn, model=Book):
     """
-    해당 도서를 Book 모델 DB에 저장한다. 이미 존재하는 경우 저장을 취소한다.
+    해당 도서를 Book 모델 DB 혹은 WishBook 모델 저장한다. 이미 존재하는 경우 저장을 취소한다.
     isbn 정보를 활용하여 api 검색을 통해 책 정보를 가져온다.
     """
-    if Book.objects.filter(isbn=isbn).exists():
+    if model.objects.filter(isbn=isbn).exists():
         message = '이미 존재하는 책입니다'
-        return message
+        return message, None
 
     client_id = settings.CLIENT_ID
     client_secret = settings.CLIENT_SECRET
@@ -54,7 +54,7 @@ def register_book(isbn):
 
         TAG_RE = re.compile(r'<[^>]+>')
 
-        Book.objects.create(
+        book = model.objects.create(
             title=TAG_RE.sub('', item['title']),
             author=TAG_RE.sub('', item['author']),
             publisher=TAG_RE.sub('', item['publisher']),
@@ -67,9 +67,9 @@ def register_book(isbn):
             discount=int(item['discount']) if item['discount'] else None,
             pubdate=item['pubdate'],
         )
-        message = '등록완료!'
-        return message
+        message, book = '등록완료!', book
+        return message, book
 
     else:
         message = "Error Code:" + rescode
-        return message
+        return message, None

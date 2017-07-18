@@ -1,10 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.db.models.aggregates import Sum
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.http import require_POST
 
 from .api import get_book_info, register_book
-from .models import Book
+from .models import Book, WishBook
 
 
 def list(request):
@@ -16,13 +17,31 @@ def list(request):
     return render(request, 'books/list.html', {'books': books})
 
 
-def puchase(request):
+def wish_books(request):
     if request.method == 'POST':
-        keyword = request.POST['keyword-puchase']
+        keyword = request.POST['keyword-wish']
         books = get_book_info(keyword, display='5')
-        return render(request, 'books/purchase.html', {'books': books})
+        return render(request, 'books/wish_book.html', {'books': books})
     else:
-        return render(request, 'books/purchase.html')
+        wish_books = WishBook.objects.all()
+        total_price = wish_books.aggregate(total=Sum('price'))
+        return render(request, 'books/wish_book.html', {
+            'wish_books': wish_books,
+            'total_price': total_price,
+        })
+
+
+@login_required
+def wish_books_save(request):
+    if request.method == 'POST':
+        isbn = request.POST['isbn']
+        message, book = register_book(isbn, model=WishBook)
+        messages.info(request, message)
+        book.wish_user = request.user
+        book.save()
+        return redirect('books:wish')
+    else:
+        return redirect('books:wish')
 
 
 def register(request):
@@ -37,18 +56,20 @@ def register(request):
 @require_POST
 def register_save(request):
     isbn = request.POST['isbn']
-    result = register_book(isbn)
-    messages.info(request, result)
+    message, book = register_book(isbn)
+    messages.info(request, message)
     return redirect('books:register')
 
 
 @login_required
-@require_POST
 def rent(request, pk):
-    book = get_object_or_404(Book, pk=pk)
-    book.rent_book(request.user)
-    messages.info(request, '대여성공! 반납 예정일은 {} 입니다.'.format(book.rent_end.date()))
-    return redirect('mybook')
+    if request.method == 'POST':
+        book = get_object_or_404(Book, pk=pk)
+        book.rent_book(request.user)
+        messages.info(request, '대여성공! 반납 예정일은 {} 입니다.'.format(book.rent_end.date()))
+        return redirect('mybook')
+    else:
+        return redirect('books:list')
 
 
 @login_required

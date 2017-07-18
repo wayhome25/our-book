@@ -20,7 +20,7 @@
         {% endfor %}
     {% else %}
         <h2>찾으시는 도서가 없습니다.</h2>
-        <p><a href="{% url 'books:purchase' %}">도서 구매신청</a> 메뉴를 통해서 원하는 책을 신청할 수 있어요! :)
+        <p><a href="{% url 'books:wish' %}">도서 구매신청</a> 메뉴를 통해서 원하는 책을 신청할 수 있어요! :)
         <br><a href="{% url 'books:list' %}">전체 도서 목록</a> 보러가기</p>
     {% endif %}
 

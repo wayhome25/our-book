@@ -17,8 +17,14 @@
                 <input type="hidden" name="isbn" value="{{ book.isbn }}">
                 <input type="submit" class="btn btn-sm btn-warning pull-right" value="도서등록">
             </form>
-        {% elif type == 'purchase' %}
-            <input type="submit" href="#" class="btn btn-sm btn-primary pull-right" value="구매신청">
+        {% elif type == 'wish' %}
+            <form action="{% url 'books:wish_save' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="isbn" value="{{ book.isbn }}">
+                <input type="submit" class="btn btn-sm btn-primary pull-right" value="구매신청">
+            </form>
+        {% elif type == 'wish_save' %}
+            <button class="btn btn-sm btn-default pull-right disabled"> 구매 신청자 : {{ book.wish_user.nickname }} 님 <br> 구매 신청일 : {{ book.created_at.date }}</button>
         {% elif type == 'list' %}
             {% if not book.rent_user %}
                 <form action="{% url 'books:rent' book.id %}" method="post">
@@ -36,7 +42,6 @@
                 {% else %}
                 <button type="submit" class="btn btn-sm btn-default pull-right">반납예정일 : {{ book.rent_end.date }}<br>반납하기</button>
                 {% endif %}
-
             </form>
         {% endif %}
         <h4 class="media-heading">{{ book.title|book_title|safe }}</h4>
