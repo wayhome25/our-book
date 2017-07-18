@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^books/', include('books.urls', namespace='books')),
-    url(r'^$', lambda request: redirect('signup') ,name='index'),  # fixme 차후 메인 페이지로 수정필요
+    url(r'^$', lambda request: redirect('books:list') ,name='index'),  # fixme 차후 메인 페이지로 수정필요
 ]
 
 # NOTE: serving media files uploaded by a user during development
