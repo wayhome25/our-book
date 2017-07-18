@@ -3,6 +3,12 @@ from django.shortcuts import render, redirect
 from django.views.decorators.http import require_POST
 
 from .api import get_book_info, register_book
+from .models import Book
+
+
+def list(request):
+    books = Book.objects.all()
+    return render(request, 'books/list.html', {'books': books})
 
 
 def puchase(request):
@@ -28,5 +34,5 @@ def register_save(request):
     isbn = request.POST['isbn']
     result = register_book(isbn)
     messages.info(request, result)
-    return redirect('book:register')
+    return redirect('books:register')
 

@@ -11,12 +11,12 @@
     </div>
     <div class="media-body">
         {% if type == 'register' %}
-            <form action="{% url 'book:register_save' %}" method="post">
+            <form action="{% url 'books:register_save' %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="isbn" value="{{ book.isbn }}">
                 <input type="submit" href="#" class="btn btn-sm btn-warning pull-right" value="도서등록">
             </form>
-        {% else %}
+        {% elif type == 'purchase' %}
             <input type="submit" href="#" class="btn btn-sm btn-primary pull-right" value="구매신청">
         {% endif %}
         <h4 class="media-heading">{{ book.title|book_title|safe }}</h4>

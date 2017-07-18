@@ -1,0 +1,30 @@
+{% extends "base.html"  %}
+
+
+{% block title %}OUR BOOK - 전체 도서{% endblock %}
+
+{% block menu %}전체 도서 목록{% endblock %}
+
+{% block seach_input %}
+    <input type="text" class="form-control" placeholder="Search" name="keyword-list">
+{% endblock %}
+
+{% block content %}
+
+    {% if books %}
+        <h2>사내도서 전체목록</h2>
+        <h4></h4>
+        {% for book in books %}
+            {% include 'include/book.html' %}
+        {% endfor %}
+    {% else %}
+        <h2>도서가 없습니다.</h2>
+        <p>도서 구매신청 메뉴를 통해서 원하는 책을 신청할 수 있어요! :)</p>
+    {% endif %}
+
+{% endblock %}
+
+
+
+
+

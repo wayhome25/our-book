@@ -15,7 +15,7 @@
         <h2>검색 결과</h2>
         <h4>희망 도서를 구매 요청 할 수 있습니다 </h4>
         {% for book in books %}
-            {% include 'include/book.html' %}
+            {% include 'include/book.html' with type='purchase'%}
         {% endfor %}
     {% else %}
         <h2>희망 도서 신청</h2>
