@@ -24,7 +24,7 @@
                 <input type="submit" class="btn btn-sm btn-primary pull-right" value="구매신청">
             </form>
         {% elif type == 'wish_save' %}
-            <button class="btn btn-sm btn-default pull-right disabled"> 구매 신청자 : {{ book.wish_user.nickname }} 님 <br> 구매 신청일 : {{ book.created_at.date }}</button>
+            <button class="btn btn-sm btn-default pull-right disabled"> 구매 신청자 : {{ book.wish_user.nickname }} 님 <br> 구매 신청일 : {{ book.created_at|date }}</button>
         {% elif type == 'list' %}
             {% if not book.rent_user %}
                 <form action="{% url 'books:rent' book.id %}" method="post">
@@ -32,15 +32,15 @@
                     <input type="submit" class="btn btn-sm btn-success pull-right" value="대여신청">
                 </form>
             {% else %}
-                <button type="button" class="btn btn-sm btn-default pull-right disabled">{{ book.rent_user.nickname }}님 대출중 <br> 반납예정일 : {{ book.rent_end.date }}</button>
+                <button type="button" class="btn btn-sm btn-default pull-right disabled">{{ book.rent_user.nickname }}님 대출중 <br> 반납예정일 : {{ book.rent_end|date }}</button>
             {% endif %}
         {% elif type == 'mybook' %}
             <form action="{% url 'books:return_book' book.id %}" method="post">
                 {% csrf_token %}
                 {% if book.check_overdue %}
-                <button type="submit" class="btn btn-sm btn-warning pull-right">반납예정일 : {{ book.rent_end.date }}<br>연체도서 반납하기</button>
+                <button type="submit" class="btn btn-sm btn-warning pull-right">반납예정일 : {{ book.rent_end|date }}<br>연체도서 반납하기</button>
                 {% else %}
-                <button type="submit" class="btn btn-sm btn-default pull-right">반납예정일 : {{ book.rent_end.date }}<br>반납하기</button>
+                <button type="submit" class="btn btn-sm btn-default pull-right">반납예정일 : {{ book.rent_end|date }}<br>반납하기</button>
                 {% endif %}
             </form>
         {% endif %}
