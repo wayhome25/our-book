@@ -10,7 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
-import os, json
+import os
+import json
 from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -20,15 +21,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
+secret_file = os.path.join(BASE_DIR, 'secrets.json')
+
+with open(secret_file) as f:
+    secrets = json.loads(f.read())
 
 # 비밀파일패턴 적용을 위한 메소드
 def get_secret(settings):
     """비밀 변수를 가져오거나 명시적 예외를 반환한다."""
-    secret_file = os.path.join(BASE_DIR, 'secrets.json')
-
-    with open(secret_file) as f:
-        secrets = json.loads(f.read())
-
     try:
         return secrets[settings]
     except KeyError:
@@ -61,9 +61,9 @@ INSTALLED_APPS = [
 
     'django_extensions',
 
+    'proto',  # App for local
     'accounts',
     'books',
-    'proto',  # App for local
 ]
 
 
@@ -114,6 +114,7 @@ DATABASES = {
         'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '',
+        'ATOMIC_REQUESTS' : True,
     }
 }
 
