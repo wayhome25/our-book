@@ -33,3 +33,9 @@ if 'proto' in settings.INSTALLED_APPS:
     urlpatterns += [
         url(r'^proto/', include('proto.urls', namespace='proto')),
     ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ]
