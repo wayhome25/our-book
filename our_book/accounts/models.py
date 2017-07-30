@@ -6,6 +6,7 @@ from django.contrib.auth.models import (
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 
+from books.models import Book, RentHistory
 
 class MyUserManager(BaseUserManager):
     def create_user(self, email, nickname, password=None):
@@ -111,4 +112,8 @@ class MyUser(AbstractBaseUser):
         # Simplest possible answer: All admins are staff
         return self.is_admin
 
+    def get_rent_books(self):
+        return Book.objects.filter(rent_info__user=self).order_by('rent_info__rent_end')
 
+    def get_rent_history(self):
+        return RentHistory.objects.filter(user=self)

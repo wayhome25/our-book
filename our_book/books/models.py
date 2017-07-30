@@ -1,4 +1,4 @@
-from datetime import timedelta, datetime
+from datetime import timedelta, date
 
 from django.db.models.aggregates import Sum
 from django.utils import timezone
@@ -21,33 +21,47 @@ class Book(models.Model):
     pubdate = models.CharField("출판일", max_length=10, blank=True)
 
     # 추가정보
-    created_at = models.DateTimeField("생성일", auto_now_add=True, db_index=True)  # Q: 왜 db_index 옵션이 필요할까?  without indexes it needs to scan over all rows to figure out the order.
-    rent_user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="대출회원", blank=True, null=True)
-    rent_start = models.DateTimeField("대여 시작일", blank=True, null=True)
-    rent_end= models.DateTimeField("대여 종료일", blank=True, null=True)
+    created_at = models.DateTimeField("생성일시", auto_now_add=True)
+    rent_info = models.OneToOneField('RentHistory', verbose_name='대출정보', blank=True, null=True, related_name='books')
 
     class Meta:
-        ordering = ['-created_at']  # note 생성일자 최신순으로 정렬
+        ordering = ['-pk']
+
+    def __str__(self):
+        return self.title
 
     # 대여 메소드
     def rent_book(self, user):
-        self.rent_user = user
-        self.rent_start = timezone.localtime(timezone.now())
-        self.rent_end = timezone.localtime(timezone.now()) + timedelta(days=7)
-        # datetime 객체 대신 time-zone-aware datetime 객체 사용
-        # 참고 : https://8percent.github.io/2017-05-31/django-timezone-problem/
+        rent_start = date.today()
+        rent_end = date.today() + timedelta(days=7)
+        rent_info = self.renthistory_set.create(user=user, rent_start=rent_start, rent_end=rent_end, return_status=False)
+        self.rent_info=rent_info
         self.save()
 
     # 반납 메소드
     def return_book(self):
-        self.rent_user = None
-        self.rent_start = None
-        self.rent_end = None
+        self.rent_info.return_status=True
+        self.rent_info.return_date = date.today()
+        self.rent_info.save()  # Q : update로 한번에 처리할 수 없을까?
+        self.rent_info=None
         self.save()
 
     # 연체여부 확인
     def check_overdue(self):
-        return self.rent_end < timezone.localtime(timezone.now())
+        return self.rent_info.rent_end < date.today()
+
+
+class RentHistory(models.Model):
+    # 대여이력
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='대출회원')
+    book = models.ForeignKey(Book, verbose_name='대출도서')
+    rent_start = models.DateField("대여시작일")
+    rent_end = models.DateField("대여종료일")
+    return_status = models.BooleanField("반납여부")
+    return_date = models.DateField("반납일", blank=True, null=True)
+
+    def __str__(self):
+        return "{}-{}".format(self.user, self.book)
 
 
 class WishBook(models.Model):
@@ -65,7 +79,7 @@ class WishBook(models.Model):
     pubdate = models.CharField("출판일", max_length=10, blank=True)
 
     # 추가정보
-    created_at = models.DateTimeField("생성일", auto_now_add=True, db_index=True)
+    created_at = models.DateTimeField("생성일시", auto_now_add=True, db_index=True)
     wish_user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="구매 신청자", null=True, blank=True)
 
     class Meta:
