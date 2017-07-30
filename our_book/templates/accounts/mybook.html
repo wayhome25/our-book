@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-    {% if request.user.book_set.all %}
+    {% if request.user.get_rent_books %}
         <h2>{{ user.nickname }} 님 도서 대출현황</h2>
         <p>대출 정보를 확인하고 반납을 할 수 있어요.</p>
         <h4></h4>

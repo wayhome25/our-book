@@ -40,8 +40,9 @@ def wish_books_save(request):
         isbn = request.POST['isbn']
         message, book = register_book(isbn, model=WishBook)
         messages.info(request, message)
-        book.wish_user = request.user
-        book.save()
+        if book:
+            book.wish_user = request.user
+            book.save()
         return redirect('books:wish')
     else:
         return redirect('books:wish')
@@ -69,7 +70,7 @@ def rent(request, pk):
     if request.method == 'POST':
         book = get_object_or_404(Book, pk=pk)
         book.rent_book(request.user)
-        messages.info(request, '대여성공! 반납 예정일은 {} 입니다.'.format(book.rent_end.date()))
+        messages.info(request, '대여성공! 반납 예정일은 {} 입니다.'.format(book.rent_info.rent_end))
         return redirect('mybook')
     else:
         return redirect('books:list')
@@ -79,7 +80,7 @@ def rent(request, pk):
 @require_POST
 def return_book(request, pk):
     book = get_object_or_404(Book, pk=pk)
-    if book.rent_user == request.user:
+    if book.rent_info.user == request.user:
         book.return_book()
         messages.info(request, '반납성공!')
     else:

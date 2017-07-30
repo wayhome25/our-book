@@ -32,5 +32,5 @@ def mybook(request):
         books = Book.objects.filter(title__icontains=keyword)
         return render(request, 'books/list.html', {'books': books})
     else:
-        books = request.user.book_set.all().order_by('rent_end')
+        books = request.user.get_rent_books()
         return render(request, 'accounts/mybook.html', {'books': books})
