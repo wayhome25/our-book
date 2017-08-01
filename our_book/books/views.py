@@ -11,27 +11,18 @@ from .models import Book, WishBook
 
 
 def list(request):
-    if request.method == 'POST':
-        keyword = request.POST['keyword-list']
-        books = Book.objects.filter(title__icontains=keyword)
-    else:
-        books = Book.objects.all()
+    books = Book.objects.all()
     return render(request, 'books/list.html', {'books': books})
 
 
 def wish_books(request):
-    if request.method == 'POST':
-        keyword = request.POST['keyword-wish']
-        books = get_book_info(keyword, display='5')
-        return render(request, 'books/wish_book.html', {'books': books})
-    else:
-        wish_books = WishBook.objects.all()
-        month = datetime.datetime.now().month
-        total_price = WishBook.get_total_price(month)
-        return render(request, 'books/wish_book.html', {
-            'wish_books': wish_books,
-            'total_price': total_price,
-        })
+    wish_books = WishBook.objects.all()
+    month = datetime.datetime.now().month
+    total_price = WishBook.get_total_price(month)
+    return render(request, 'books/wish_book.html', {
+        'wish_books': wish_books,
+        'total_price': total_price,
+    })
 
 
 @login_required
@@ -49,12 +40,7 @@ def wish_books_save(request):
 
 
 def register(request):
-    if request.method == 'POST':
-        keyword = request.POST['keyword-register']
-        books = get_book_info(keyword, display='5')
-        return render(request, 'books/register.html', {'books': books})
-    else:
-        return render(request, 'books/register.html')
+    return render(request, 'books/register.html')
 
 
 @require_POST
@@ -86,3 +72,23 @@ def return_book(request, pk):
     else:
         messages.error(request, '문제가 발생했습니다.')
     return redirect('mybook')
+
+
+def search_result(request):
+    if request.GET.get('keyword_list'):
+        keyword = request.GET['keyword_list']  # note: 찾는 Key가 없으면 default 값 리턴 (None), KeyError 발생 방지
+        books = Book.objects.filter(title__icontains=keyword)
+        return render(request, 'books/list.html', {'books': books})
+
+    if request.GET.get('keyword_wish'):
+        keyword = request.GET['keyword_wish']
+        books = get_book_info(keyword, display='5')
+        return render(request, 'books/wish_book.html', {'books': books})
+
+    if request.GET.get('keyword_register'):
+        keyword = request.GET['keyword_register']
+        books = get_book_info(keyword, display='5')
+        return render(request, 'books/register.html', {'books': books})
+
+    messages.warning(request, '검색어를 입력해주세요.')
+    return redirect('books:list')

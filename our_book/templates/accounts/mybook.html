@@ -3,12 +3,6 @@
 
 {% block title %}OUR BOOK - 대여현황{% endblock %}
 
-{% block menu %}Menu{% endblock %}
-
-{% block seach_input %}
-    <input type="text" class="form-control" placeholder="Search" name="keyword-list">
-{% endblock %}
-
 {% block content %}
     {% if request.user.get_rent_books %}
         <h2>{{ user.nickname }} 님 도서 대출현황</h2>
@@ -21,5 +15,4 @@
         <h2>대출중인 도서가 없습니다.</h2>
         <p><a href="{% url 'books:list' %}">전체 도서 목록</a> 메뉴를 통해서 원하는 책을 빌릴 수 있어요! :)</p>
     {% endif %}
-
 {% endblock %}
