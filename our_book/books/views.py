@@ -5,14 +5,16 @@ from django.contrib.auth.decorators import login_required
 from django.db.models.aggregates import Sum
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.http import require_POST
+from django.views.generic.list import ListView
 
 from .api import get_book_info, register_book
 from .models import Book, WishBook
 
 
-def list(request):
-    books = Book.objects.all()
-    return render(request, 'books/list.html', {'books': books})
+class BookListView(ListView):
+    model = Book
+    paginate_by = 10
+    context_object_name = 'books'
 
 
 def wish_books(request):
@@ -78,7 +80,7 @@ def search_result(request):
     if request.GET.get('keyword_list'):
         keyword = request.GET['keyword_list']  # note: 찾는 Key가 없으면 default 값 리턴 (None), KeyError 발생 방지
         books = Book.objects.filter(title__icontains=keyword)
-        return render(request, 'books/list.html', {'books': books})
+        return render(request, 'books/book_list.html', {'books': books})
 
     if request.GET.get('keyword_wish'):
         keyword = request.GET['keyword_wish']

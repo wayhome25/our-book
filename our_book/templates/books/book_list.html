@@ -1,0 +1,44 @@
+{% extends "base.html"  %}
+
+
+{% block title %}OUR BOOK - 전체 도서{% endblock %}
+
+{% block content %}
+    {% if books %}
+        <h2>사내도서 전체목록 (총 {{ paginator.count }}권)</h2>
+        <p>사내 도서를 검색하고 대여신청(7일)을 할 수 있어요.</p>
+        {% if is_paginated %}
+            <ul class="pagination pagination-book-list">
+                {% if page_obj.has_previous %}
+                    <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                    <li class="disabled"><span>&laquo;</span></li>
+                {% endif %}
+                {% for i in paginator.page_range %}
+                    {% if page_obj.number == i %}
+                        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                    {% else %}
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                    <li class="disabled"><span>&raquo;</span></li>
+                {% endif %}
+            </ul>
+        {% endif %}
+        {% for book in books %}
+            {% include 'include/book.html' with type='list' %}
+        {% endfor %}
+    {% else %}
+        <h2>찾으시는 도서가 없습니다.</h2>
+        <p><a href="{% url 'books:wish' %}">도서 구매신청</a> 메뉴를 통해서 원하는 책을 신청할 수 있어요! :)
+            <br><a href="{% url 'books:list' %}">전체 도서 목록</a> 보러가기</p>
+    {% endif %}
+{% endblock %}
+
+
+
+
+

@@ -30,7 +30,7 @@ def mybook(request):
     if request.method == 'POST':
         keyword = request.POST['keyword-list']
         books = Book.objects.filter(title__icontains=keyword)
-        return render(request, 'books/list.html', {'books': books})
+        return render(request, 'books/book_list.html', {'books': books})
     else:
         books = request.user.get_rent_books()
         return render(request, 'accounts/mybook.html', {'books': books})
