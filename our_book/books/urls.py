@@ -4,7 +4,9 @@ from . import views
 
 urlpatterns = [
     url(r'^list/$', views.BookListView.as_view(), name='list'),
-    url(r'^wish/$', views.wish_books, name='wish'),
+    url(r'^wish/(?P<year>[0-9]{4})/(?P<month>[0-9]+)/$',
+        views.WishBooksMonthArchiveView.as_view(month_format='%m'),
+        name='wish_month'),
     url(r'^wish/save/$', views.wish_books_save, name='wish_save'),
     url(r'^register/$', views.register, name='register'),
     url(r'^register/save/$', views.register_save, name='register_save'),

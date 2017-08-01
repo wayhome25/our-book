@@ -1,0 +1,59 @@
+{% extends "base.html"  %}
+{% load humanize %}
+
+{% block title %}OUR BOOK - 도서구매신청{% endblock %}
+
+{% block menu %}도서 구매 신청{% endblock %}
+
+{% block seach_input %}
+    <input type="text" class="form-control" placeholder="Search" name="keyword_wish" required>
+{% endblock %}
+
+{% block content %}
+    {% if books %}
+        <h2>검색 결과</h2>
+        <h4>희망 도서를 구매 요청 할 수 있습니다 <a href="{% url 'books:wish_month' current_year current_month%}">도서구매 신청 현황</a></h4>
+        <form action="{% url 'books:search_result' %}" method="get">
+            <div class="form-group">
+                <input type="text" class="body-search-input form-control input-lg" placeholder="Search" name="keyword_wish">
+            </div>
+        </form>
+        {% for book in books %}
+            {% include 'include/book.html' with type='wish'%}
+        {% endfor %}
+    {% else %}
+        <h2>희망 도서 신청</h2>
+        <h4>구매를 희망하는 도서를 검색하고, 구매 신청을 진행합니다.</h4>
+        <form action="{% url 'books:search_result' %}" method="get">
+            <div class="form-group">
+                <input type="text" class="body-search-input form-control input-lg" placeholder="Search" name="keyword_wish">
+            </div>
+        </form>
+        <hr>
+        <h2>{{ month|date:"o년 b" }} 희망도서 신청 이력 ({{ wish_books.count }}권)</h2>
+        <p>구매 가능 총 금액 : <code>300,000원</code> / 구매 신청 누적금액 : <code>{{ total_price|intcomma }}원</code><br>구매 가능 금액은 <u>매달 1일</u> 갱신됩니다. </p>
+        <p>
+        <ul class="pager">
+            {% if previous_month %}
+                <li class="previous"><a href="{% url 'books:wish_month' previous_month|date:"o" previous_month|date:"m" %}">&larr; {{ previous_month|date:"o년 b" }}</a></li>
+            {% else %}
+                <li class="previous disabled"><a href="#">&larr; Older</a></li>
+            {% endif %}
+            <li><a href="{% url 'books:wish_month' current_year current_month%}">{% now "o년 b" %}</a></li>
+            {% if next_month %}
+                <li class="next"><a href="{% url 'books:wish_month' next_month|date:"o" next_month|date:"m" %}">{{ next_month|date:"o년 b" }} &rarr;</a></li>
+            {% else %}
+                <li class="next disabled"><a href="#">Newer &rarr;</a></li>
+            {% endif %}
+        </ul>
+        {% for book in wish_books %}
+            {% include 'include/book.html' with type='wish_save'%}
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}
+
+
+
+
+

@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models.aggregates import Sum
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.http import require_POST
+from django.views.generic.dates import MonthArchiveView
 from django.views.generic.list import ListView
 
 from .api import get_book_info, register_book
@@ -17,14 +18,17 @@ class BookListView(ListView):
     context_object_name = 'books'
 
 
-def wish_books(request):
-    wish_books = WishBook.objects.all()
-    month = datetime.datetime.now().month
-    total_price = WishBook.get_total_price(month)
-    return render(request, 'books/wish_book.html', {
-        'wish_books': wish_books,
-        'total_price': total_price,
-    })
+class WishBooksMonthArchiveView(MonthArchiveView):
+    model = WishBook
+    date_field = "created_at"
+    context_object_name = 'wish_books'
+
+    def get_context_data(self, **kwargs):
+        context = super(WishBooksMonthArchiveView, self).get_context_data(**kwargs)
+        year = self.kwargs['year']
+        month = self.kwargs['month']
+        context['total_price'] = WishBook.get_total_price(year, month)
+        return context
 
 
 @login_required
@@ -36,9 +40,9 @@ def wish_books_save(request):
         if book:
             book.wish_user = request.user
             book.save()
-        return redirect('books:wish')
+        return redirect('books:wish_month', year=datetime.datetime.today().year, month=datetime.datetime.today().month)
     else:
-        return redirect('books:wish')
+        return redirect('books:wish_month', year=datetime.datetime.today().year, month=datetime.datetime.today().month)
 
 
 def register(request):

@@ -87,6 +87,6 @@ class WishBook(models.Model):
 
     # 월별 총액
     @classmethod
-    def get_total_price(cls, month):
-        total_price = cls.objects.filter(created_at__month=month).aggregate(total=Sum('price'))
+    def get_total_price(cls, year, month):
+        total_price = cls.objects.filter(created_at__year=year, created_at__month=month).aggregate(total=Sum('price'))
         return total_price['total']

@@ -10,34 +10,16 @@
 {% endblock %}
 
 {% block content %}
-
-    {% if books %}
-        <h2>검색 결과</h2>
-        <h4>희망 도서를 구매 요청 할 수 있습니다 <a href="{% url 'books:wish' %}">도서구매 신청 현황</a></h4>
-         <form action="{% url 'books:search_result' %}" method="get">
-            <div class="form-group">
-                <input type="text" class="body-search-input form-control input-lg" placeholder="Search" name="keyword_wish">
-            </div>
-        </form>
-        {% for book in books %}
-            {% include 'include/book.html' with type='wish'%}
-        {% endfor %}
-    {% else %}
-        <h2>희망 도서 신청</h2>
-        <h4>구매를 희망하는 도서를 검색하고, 구매 신청을 진행합니다.</h4>
-        <form action="{% url 'books:search_result' %}" method="get">
-            <div class="form-group">
-                <input type="text" class="body-search-input form-control input-lg" placeholder="Search" name="keyword_wish">
-            </div>
-        </form>
-        <hr>
-        <h2>{% now 'M'%} 희망 도서 신청 현황</h2>
-        <p>구매 가능 총 금액 : <code>300,000원</code> / 구매 신청 누적금액 : <code>{{ total_price|intcomma }}원</code><br>구매 가능 금액은 <u>매달 1일</u> 갱신됩니다. </p>
-        {% for book in wish_books %}
-            {% include 'include/book.html' with type='wish_save'%}
-        {% endfor %}
-    {% endif %}
-
+    <h2>검색 결과</h2>
+    <h4>희망 도서를 구매 요청 할 수 있습니다 <a href="{% url 'books:wish_month' current_year current_month%}">도서구매 신청 현황</a></h4>
+    <form action="{% url 'books:search_result' %}" method="get">
+        <div class="form-group">
+            <input type="text" class="body-search-input form-control input-lg" placeholder="Search" name="keyword_wish">
+        </div>
+    </form>
+    {% for book in books %}
+        {% include 'include/book.html' with type='wish'%}
+    {% endfor %}
 {% endblock %}
 
 
