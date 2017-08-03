@@ -1,8 +1,10 @@
+import csv
 import datetime
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models.aggregates import Sum
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.http import require_POST
 from django.views.generic.dates import MonthArchiveView
@@ -16,6 +18,21 @@ class BookListView(ListView):
     model = Book
     paginate_by = 10
     context_object_name = 'books'
+
+
+def export_all_books_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="books.csv"'
+
+    writer = csv.writer(response)
+    fields = [field.name for field in Book._meta.fields if field.name not in ['rent_info']]
+    writer.writerow(fields)
+    books = Book.objects.all().values_list(*fields)
+
+    for book in books:
+        writer.writerow(book)
+
+    return response
 
 
 class WishBooksMonthArchiveView(MonthArchiveView):
@@ -81,8 +98,8 @@ def return_book(request, pk):
 
 
 def search_result(request):
-    if request.GET.get('keyword_list'):
-        keyword = request.GET['keyword_list']  # note: 찾는 Key가 없으면 default 값 리턴 (None), KeyError 발생 방지
+    if request.GET.get('keyword_list'): # note: 찾는 Key가 없으면 default 값 리턴 (None), KeyError 발생 방지
+        keyword = request.GET['keyword_list']
         books = Book.objects.filter(title__icontains=keyword)
         return render(request, 'books/book_list.html', {'books': books})
 

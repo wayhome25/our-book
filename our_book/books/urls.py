@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
     url(r'^list/$', views.BookListView.as_view(), name='list'),
+    url(r'^list/export/csv/$', views.export_all_books_csv, name='export_all_books_csv'),
     url(r'^wish/(?P<year>[0-9]{4})/(?P<month>[0-9]+)/$',
         views.WishBooksMonthArchiveView.as_view(month_format='%m'),
         name='wish_month'),

@@ -6,7 +6,7 @@
 {% block content %}
     {% if books %}
         <h2>사내도서 전체목록 (총 {{ paginator.count }}권)</h2>
-        <p>사내 도서를 검색하고 대여신청(7일)을 할 수 있어요.</p>
+        <p>사내 도서를 검색하고 대여신청(7일)을 할 수 있어요. <a href="{% url 'books:export_all_books_csv' %}">(전체도서 csv 다운로드)</a></p>
         {% if is_paginated %}
             <ul class="pagination pagination-book-list">
                 {% if page_obj.has_previous %}
