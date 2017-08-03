@@ -90,3 +90,6 @@ class WishBook(models.Model):
     def get_total_price(cls, year, month):
         total_price = cls.objects.filter(created_at__year=year, created_at__month=month).aggregate(total=Sum('price'))
         return total_price['total']
+
+    def cancel_wish_book(self):
+        self.delete()

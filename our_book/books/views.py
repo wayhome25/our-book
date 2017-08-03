@@ -57,9 +57,18 @@ def wish_books_save(request):
         if book:
             book.wish_user = request.user
             book.save()
-        return redirect('books:wish_month', year=datetime.datetime.today().year, month=datetime.datetime.today().month)
+    return redirect('books:wish_month', year=datetime.datetime.today().year, month=datetime.datetime.today().month)
+
+
+@login_required
+def cancel_wish_book(request, pk):
+    wish_book = get_object_or_404(WishBook, pk=pk)
+    if request.user == wish_book.wish_user and wish_book.created_at.month == datetime.datetime.today().month:
+        wish_book.cancel_wish_book()
+        messages.info(request, '구매 희망도서를 취소했습니다.')
     else:
-        return redirect('books:wish_month', year=datetime.datetime.today().year, month=datetime.datetime.today().month)
+        messages.warning(request, '잘못된 접근입니다. 지난달 구매신청을 취소하시려면 관리자에게 문의하세요.')
+    return redirect('books:wish_month', year=datetime.datetime.today().year, month=datetime.datetime.today().month)
 
 
 def register(request):

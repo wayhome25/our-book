@@ -9,6 +9,7 @@ urlpatterns = [
         views.WishBooksMonthArchiveView.as_view(month_format='%m'),
         name='wish_month'),
     url(r'^wish/save/$', views.wish_books_save, name='wish_save'),
+    url(r'^wish/(?P<pk>\d+)/cancel/$', views.cancel_wish_book, name='wish_cancel'),
     url(r'^register/$', views.register, name='register'),
     url(r'^register/save/$', views.register_save, name='register_save'),
     url(r'^list/rent/(?P<pk>\d+)/$', views.rent, name='rent'),

@@ -24,7 +24,11 @@
                 <input type="submit" class="btn btn-sm btn-primary pull-right" value="구매신청">
             </form>
         {% elif type == 'wish_save' %}
-            <button class="btn btn-sm btn-default pull-right disabled"> 구매 신청자 : {{ book.wish_user.nickname }} 님 <br> 구매 신청일 : {{ book.created_at|date }}</button>
+            {% if book.wish_user == user %}
+                <a href="{% url 'books:wish_cancel' book.id %}"><button class="btn btn-sm btn-default pull-right"> 구매 신청 취소  <br> 구매 신청일 : {{ book.created_at|date }}</button></a>
+            {% else %}
+                <button class="btn btn-sm btn-default pull-right disabled"> 구매 신청자 : {{ book.wish_user.nickname }} 님 <br> 구매 신청일 : {{ book.created_at|date }}</button>
+            {% endif %}
         {% elif type == 'list' %}
             {% if not book.rent_info %}
                 <form action="{% url 'books:rent' book.id %}" method="post">
