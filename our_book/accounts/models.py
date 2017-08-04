@@ -82,7 +82,7 @@ class MyUser(AbstractBaseUser):
     REQUIRED_FIELDS = ['nickname']
 
     def __str__(self):
-        return self.email
+        return self.nickname
 
     def get_full_name(self):
         # The user is identified by their email address

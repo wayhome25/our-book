@@ -10,7 +10,7 @@ else:
     notification = None
 
 from django_messages.models import Message
-from django_messages.fields import CommaSeparatedUserField, UserModelChoiceField
+from django_messages.fields import CommaSeparatedUserField
 
 class ComposeForm(forms.Form):
     """
@@ -18,7 +18,7 @@ class ComposeForm(forms.Form):
     """
     User = get_user_model()
 
-    recipient = UserModelChoiceField(label='받는사람', queryset=User.objects.all())
+    recipient = forms.ModelChoiceField(label='받는사람', queryset=User.objects.all())
     subject = forms.CharField(label='제목', max_length=140)
     body = forms.CharField(label='내용',
                            widget=forms.Textarea(attrs={'rows': '12', 'cols': '55'}))
@@ -36,7 +36,6 @@ class ComposeForm(forms.Form):
         subject = self.cleaned_data['subject']
         body = self.cleaned_data['body']
         message_list = []
-        # for r in recipients:
         msg = Message(
             sender = sender,
             recipient = recipients,
