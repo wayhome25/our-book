@@ -7,6 +7,8 @@
   - 대여 / 반납 기능
   - 연체시 email, slack을 통한 알림
 - 구매 희망도서 신청
+- 도서목록 csv 다운로드
+- 유저간 쪽지 교환 기능
 
 ## 목표
 - [Two Scoops of Django](https://www.twoscoopspress.com/products/two-scoops-of-django-1-11)에서 공부한 내용을 적용한다.

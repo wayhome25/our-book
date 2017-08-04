@@ -73,10 +73,25 @@
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ user }}<span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            {{ user }}<span class="caret"></span>
+                            {% if messages_inbox_count %}
+                                <span class="text-info">
+                                    new
+                                </span>
+                            {% endif %}
+                        </a>
                         <ul class="dropdown-menu">
                             <li><a href="{% url 'profile' user.id %}">회원정보</a></li>
                             <li><a href="{% url 'mybook' %}">도서 대여상황</a></li>
+                            <li><a href="{% url 'messages_inbox' %}">
+                                쪽지함
+                                {% if messages_inbox_count %}
+                                    <span class="badge">
+                                   {{ messages_inbox_count }}
+                                </span>
+                                {% endif %}
+                            </a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="{% url 'logout' %}">로그아웃</a></li>
                         </ul>
@@ -102,6 +117,8 @@
     </div><!-- /.container-fluid -->
 </nav>
 <div class="container">
+    {% block sidebar %}
+    {% endblock %}
     {% block content %}
     {% endblock %}
 </div>
