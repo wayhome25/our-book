@@ -58,15 +58,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     'debug_toolbar',
     'django_extensions',
+    'django_messages',
 
-    'proto',  # App for local
     'accounts',
     'books',
 ]
 
+SITE_ID = 1
 
 # AUTHENTICATION
 AUTH_USER_MODEL = 'accounts.MyUser'

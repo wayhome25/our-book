@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load inbox %}
 
 {% block content %}
     <h1>{{ user.email }} 의 프로필</h1>
@@ -10,7 +11,8 @@
         <li>소개 : {{ user.bio }}</li>
         <li>팀 : {{ user.team }}</li>
         <li>생일 : {{ user.birth_date }}</li>
+        <li>받은쪽지({% inbox_count %}개): <a href="{% url 'messages_inbox' %}">상세보기</a></li>
+        <li><a href="{% url 'messages_compose' %}">쪽지 보내기</a></li>
+        <li><a href="{% url 'messages_outbox' %}">보낸 쪽지함</a></li>
     </ul>
-
-
 {% endblock %}
