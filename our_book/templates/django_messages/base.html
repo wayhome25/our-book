@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+{% endblock %}
+{% block sidebar %}
+<ul class="nav nav-tabs">
+ <li><a href="{% url 'messages_inbox' %} ">{% trans "Inbox" %}</a></li>
+    <li><a href="{% url 'messages_outbox' %} ">{% trans "Sent Messages" %}</a></li>
+    <li><a href="{% url 'messages_compose' %} ">{% trans "New Message" %}</a></li>
+    <li><a href="{% url 'messages_trash' %} ">{% trans "Trash" %}</a></li>
+</ul>
+{% endblock %}
