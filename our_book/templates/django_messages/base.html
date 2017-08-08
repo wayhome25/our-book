@@ -4,10 +4,10 @@
 {% block content %}
 {% endblock %}
 {% block sidebar %}
-<ul class="subnavilist">
-    <li><a href="{% url 'messages_inbox' %} ">&raquo;&nbsp;{% trans "Inbox" %}</a></li>
-    <li><a href="{% url 'messages_outbox' %} ">&raquo;&nbsp;{% trans "Sent Messages" %}</a></li>
-    <li><a href="{% url 'messages_compose' %} ">&raquo;&nbsp;{% trans "New Message" %}</a></li>
-    <li><a href="{% url 'messages_trash' %} ">&raquo;&nbsp;{% trans "Trash" %}</a></li>
+<ul class="nav nav-tabs">
+ <li><a href="{% url 'messages_inbox' %} ">{% trans "Inbox" %}</a></li>
+    <li><a href="{% url 'messages_outbox' %} ">{% trans "Sent Messages" %}</a></li>
+    <li><a href="{% url 'messages_compose' %} ">{% trans "New Message" %}</a></li>
+    <li><a href="{% url 'messages_trash' %} ">{% trans "Trash" %}</a></li>
 </ul>
 {% endblock %}
