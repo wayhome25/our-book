@@ -18,15 +18,12 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.shortcuts import redirect
-from accounts.forms import NewComposeForm
-from django_messages.views import *
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^books/', include('books.urls', namespace='books')),
-    url(r'^messages/compose/$', compose, {'form_class': NewComposeForm,}, name='messages_compose'),
     url(r'^messages/', include('django_messages.urls')),
     url(r'^$', lambda request: redirect('books:list'), name='index'),  # fixme 차후 메인 페이지로 수정필요
 ]

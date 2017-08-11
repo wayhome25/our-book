@@ -6,7 +6,6 @@ django-appconf==1.0.2
 django-debug-toolbar==1.8
 django-extensions==1.8.1
 django-imagekit==4.0.1
--e git+https://github.com/arneb/django-messages.git@b6bd11a767c9a5bf31fec6e1980a28b3734ea432#egg=django_messages
 entrypoints==0.2.3
 html5lib==0.999999999
 ipykernel==4.6.1
