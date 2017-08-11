@@ -200,6 +200,5 @@ pip-selfcheck.json
 ### custom 추가
 .idea/
 secrets.json
-proto/
 jupyter/
 *.ipynb
