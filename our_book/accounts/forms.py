@@ -2,6 +2,7 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.core.mail import send_mail
 from django_messages.forms import ComposeForm
 from django_messages.models import Message
 if "pinax.notifications" in settings.INSTALLED_APPS and getattr(settings, 'DJANGO_MESSAGES_NOTIFY', True):
@@ -64,6 +65,11 @@ class NewComposeForm(ComposeForm):
             parent_msg.save()
         msg.save()
         message_list.append(msg)
+
+        mail_subject = '{}님이 쪽지를 보냈습니다'.format(sender.nickname)
+        mail_content = '{}님의 쪽지 : {}'.format(sender.nickname, body)
+        send_mail(mail_subject, mail_content, 'wayhome250@gmail.com', [recipients.email])
+
         if notification:
             if parent_msg is not None:
                 notification.send([sender], "messages_replied", {'message': msg,})

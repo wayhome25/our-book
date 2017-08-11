@@ -173,3 +173,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Email
+
+EMAIL_PASSWORD = get_secret("EMAIL_PASSWORD")
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'wayhome250@gmail.com'
+EMAIL_HOST_PASSWORD = EMAIL_PASSWORD
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
