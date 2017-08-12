@@ -1,12 +1,15 @@
+amqp==2.2.1
 appnope==0.1.0
+billiard==3.5.0.3
 bleach==2.0.0
+celery==4.1.0
 decorator==4.0.11
 Django==1.11.3
 django-appconf==1.0.2
 django-debug-toolbar==1.8
 django-extensions==1.8.1
 django-imagekit==4.0.1
--e git+https://github.com/arneb/django-messages.git@b6bd11a767c9a5bf31fec6e1980a28b3734ea432#egg=django_messages
+django-messages==0.5.3
 entrypoints==0.2.3
 html5lib==0.999999999
 ipykernel==4.6.1
@@ -18,6 +21,7 @@ Jinja2==2.9.6
 jsonschema==2.6.0
 jupyter-client==5.1.0
 jupyter-core==4.3.0
+kombu==4.1.0
 MarkupSafe==1.0
 mistune==0.7.4
 nbconvert==5.2.1
@@ -36,6 +40,7 @@ Pygments==2.2.0
 python-dateutil==2.6.1
 pytz==2017.2
 pyzmq==16.0.2
+redis==2.10.5
 simplegeneric==0.8.1
 six==1.10.0
 sqlparse==0.2.3
@@ -43,6 +48,7 @@ terminado==0.6
 testpath==0.3.1
 tornado==4.5.1
 traitlets==4.3.2
+vine==1.1.4
 wcwidth==0.1.7
 webencodings==0.5.1
 widgetsnbextension==2.0.0

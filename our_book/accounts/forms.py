@@ -10,7 +10,7 @@ if "pinax.notifications" in settings.INSTALLED_APPS and getattr(settings, 'DJANG
 else:
     notification = None
 
-
+from .tasks import send_email_message_notification
 
 User = get_user_model()
 
@@ -68,7 +68,8 @@ class NewComposeForm(ComposeForm):
 
         mail_subject = '{}님이 쪽지를 보냈습니다'.format(sender.nickname)
         mail_content = '{}님의 쪽지 : {}'.format(sender.nickname, body)
-        send_mail(mail_subject, mail_content, 'wayhome250@gmail.com', [recipients.email])
+        # send_mail(mail_subject, mail_content, 'wayhome250@gmail.com', [recipients.email])
+        send_email_message_notification.delay(mail_subject, mail_content, user_pk=recipients.pk)
 
         if notification:
             if parent_msg is not None:
