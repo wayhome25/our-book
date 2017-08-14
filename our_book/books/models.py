@@ -60,6 +60,7 @@ class RentHistory(models.Model):
     rent_end = models.DateField("대여종료일")
     return_status = models.BooleanField("반납여부")
     return_date = models.DateField("반납일", blank=True, null=True)
+    sent_overdue_email = models.BooleanField("연체알람여부", default=False)
 
     def __str__(self):
         return "{}-{}".format(self.user, self.book)
@@ -73,6 +74,9 @@ class RentHistory(models.Model):
         mail_subject = '[연체안내] {}님 대출도서가 연체되었습니다.({})'.format(recipients.nickname, self.book.title)
         mail_content = '대출도서:{} / 반납예정일:{}'.format(self.book.title, self.rent_end)
         send_mail(mail_subject, mail_content, 'wayhome250@gmail.com', [recipients.email])
+        self.sent_overdue_email = True
+        self.save()
+
 
 class WishBook(models.Model):
     # 도서정보

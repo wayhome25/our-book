@@ -14,7 +14,7 @@ class BookAdmin(admin.ModelAdmin):
 
 @admin.register(RentHistory)
 class RentHistoryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user', 'book', 'rent_start', 'rent_end', 'return_status']
+    list_display = ['id', 'user', 'book', 'rent_start', 'rent_end', 'return_status', 'sent_overdue_email']
     list_display_links = ['user', 'book']
 
 
