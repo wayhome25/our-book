@@ -202,3 +202,5 @@ pip-selfcheck.json
 secrets.json
 jupyter/
 *.ipynb
+dump.rdb
+celerybeat*.*
