@@ -69,6 +69,12 @@ class RentHistory(models.Model):
     def check_overdue(self):
         return self.rent_end < date.today()
 
+    def send_return_info_email(self):
+        recipients = self.user
+        mail_subject = '[반납안내] {}님 내일은 대출하신 도서의 반납일입니다.({})'.format(recipients.nickname, self.book.title)
+        mail_content = '대출도서:{} / 반납예정일:{}'.format(self.book.title, self.rent_end)
+        send_mail(mail_subject, mail_content, 'wayhome250@gmail.com', [recipients.email])
+
     def send_overdue_email(self):
         recipients = self.user
         mail_subject = '[연체안내] {}님 대출도서가 연체되었습니다.({})'.format(recipients.nickname, self.book.title)
@@ -76,6 +82,10 @@ class RentHistory(models.Model):
         send_mail(mail_subject, mail_content, 'wayhome250@gmail.com', [recipients.email])
         self.sent_overdue_email = True
         self.save()
+
+    @classmethod
+    def get_due_date_books(cls):
+        return cls.objects.filter(rent_end=date.today()+timedelta(days=1))
 
 
 class WishBook(models.Model):

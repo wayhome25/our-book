@@ -14,6 +14,14 @@ def send_email_message_notification(mail_subject, mail_content, user_pk):
 
 
 @app.task
+def send_email_return_date_notification():
+    due_date_books = RentHistory.get_due_date_books()
+    for due_date_book in due_date_books:
+        due_date_book.send_return_info_email()
+    return '반납일 안내 이메일 발송 완료 ({}개)'.format(len(due_date_books))
+
+
+@app.task
 def send_email_overdue_notification():
     not_returned_books = RentHistory.objects.filter(return_status=False)
     overdue_books = [book for book in not_returned_books if book.check_overdue and not book.sent_overdue_email]

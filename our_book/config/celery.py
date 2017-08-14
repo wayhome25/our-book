@@ -15,11 +15,16 @@ def debug_task(self):
 
 app.conf.update(
     CELERY_TIMEZONE='Asia/Seoul',
-    CELERYBEAT_SCHEDULE = {
-        'send-email_overdue_notification': {
+    CELERYBEAT_SCHEDULE={
+        'send_email_overdue_notification': {
             'task': 'accounts.tasks.send_email_overdue_notification',
             'schedule': crontab(minute=0, hour=11),
             'args': ()
         },
+        'send_email_duedate_notification': {
+            'task': 'accounts.tasks.send_email_return_date_notification',
+            'schedule': crontab(minute=0, hour=15),
+            'args': ()
+        }
     }
 )
