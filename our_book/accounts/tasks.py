@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from config.celery import app
+from books.models import RentHistory
 
 
 User = get_user_model()
@@ -13,5 +14,9 @@ def send_email_message_notification(mail_subject, mail_content, user_pk):
 
 
 @app.task
-def say_hello_every_seconds():
-    print("Hello, 초보몽키!")
+def send_email_overdue_notification():
+    not_returned_books = RentHistory.objects.filter(return_status=False)
+    overdue_books = [book for book in not_returned_books if book.check_overdue and not book.sent_overdue_email]
+    for overdue_book in overdue_books:
+        overdue_book.send_overdue_email()
+    return '연체안내 이메일 발송 완료 ({}개)'.format(len(overdue_books))
