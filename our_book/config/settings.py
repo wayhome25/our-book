@@ -124,7 +124,7 @@ DATABASES = {
         'USER': 'wayhome25',
         'PASSWORD': '',
         'HOST': 'localhost',
-        'PORT': '',
+        'PORT': '1234',
         'ATOMIC_REQUESTS' : True,
     }
 }

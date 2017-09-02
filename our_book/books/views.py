@@ -39,9 +39,10 @@ class WishBooksMonthArchiveView(MonthArchiveView):
     model = WishBook
     date_field = "created_at"
     context_object_name = 'wish_books'
+    allow_empty = True
 
     def get_context_data(self, **kwargs):
-        context = super(WishBooksMonthArchiveView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         year = self.kwargs['year']
         month = self.kwargs['month']
         context['total_price'] = WishBook.get_total_price(year, month)

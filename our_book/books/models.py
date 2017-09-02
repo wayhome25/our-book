@@ -5,6 +5,7 @@ from django.db.models.aggregates import Sum
 from django.utils import timezone
 from django.conf import settings
 from django.db import models
+from django.db.models.functions import Coalesce
 
 
 class Book(models.Model):
@@ -112,7 +113,7 @@ class WishBook(models.Model):
     # 월별 총액
     @classmethod
     def get_total_price(cls, year, month):
-        total_price = cls.objects.filter(created_at__year=year, created_at__month=month).aggregate(total=Sum('price'))
+        total_price = cls.objects.filter(created_at__year=year, created_at__month=month).aggregate(total=Coalesce(Sum('price'), 0))
         return total_price['total']
 
     def cancel_wish_book(self):
