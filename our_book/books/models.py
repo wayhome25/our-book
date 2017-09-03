@@ -10,7 +10,7 @@ from django.db.models.functions import Coalesce
 
 class Book(models.Model):
     # 도서정보
-    title = models.CharField("도서명", max_length=100)
+    title = models.CharField("도서명", max_length=200)
     author = models.CharField("저자", max_length=100)
     publisher = models.CharField("출판사", max_length=100)
     description = models.CharField("책소개", max_length=300, blank=True)

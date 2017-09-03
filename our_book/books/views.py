@@ -12,6 +12,7 @@ from django.views.generic.list import ListView
 
 from .api import get_book_info, register_book
 from .models import Book, WishBook
+from utils.slack import slack_notify
 
 
 class BookListView(ListView):
@@ -81,6 +82,15 @@ def register_save(request):
     isbn = request.POST['isbn']
     message, book = register_book(isbn)
     messages.info(request, message)
+    if book:
+        attachments = [{
+            "color": "#36a64f",
+            "title": "신규도서",
+            "title_link": "http://127.0.0.1:7000/books/list/",
+            "fallback": "신규도서 알림",
+            "text": "{}".format(book.title)
+        }]
+        slack_notify(channel='#new_book', username='새책 알림봇', attachments=attachments)
     return redirect('books:register')
 
 
@@ -102,6 +112,7 @@ def return_book(request, pk):
     if book.rent_info.user == request.user:
         book.return_book()
         messages.info(request, '반납성공!')
+        slack_notify("[도서반납] {}".format(book.title), '#return_book', username='반납 알림봇')
     else:
         messages.error(request, '문제가 발생했습니다.')
     return redirect('mybook')
