@@ -100,6 +100,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'accounts.context_processors.forms',
+                
                 'django_messages.context_processors.inbox',
             ],
         },
@@ -121,7 +124,7 @@ DATABASES = {
         'USER': 'wayhome25',
         'PASSWORD': '',
         'HOST': 'localhost',
-        'PORT': '',
+        'PORT': '1234',
         'ATOMIC_REQUESTS' : True,
     }
 }
@@ -187,3 +190,6 @@ EMAIL_USE_TLS = True
 # CELERY SETTINGS
 CELERY_BROKER_URL = 'redis://localhost:6379/'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/'
+
+# SLACK SETTINGS
+SLACK_TOKEN = get_secret("SLACK_TOKEN")

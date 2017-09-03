@@ -11,14 +11,13 @@
 - 도서목록 csv 다운로드
 - 유저간 쪽지 교환 기능
 
-## 목표
-- [Two Scoops of Django](https://www.twoscoopspress.com/products/two-scoops-of-django-1-11)에서 공부한 내용을 적용한다.
-- OPEN API를 활용한다.
-- [AskDjango 해커톤](https://nomade.kr/moim/askdjango-hackathon-2017/) 참여에 앞서서 원하는 기능 구현을 미리 연습해본다.   
-
 ## 연습내용
-- [네이버 검색 API](https://developers.naver.com/docs/common/openapiguide/)
+> 구현 중 새롭게 알게된 것 유용하다고 생각한 부분들을 블로그에 정리합니다. 
+ 
+- [네이버 검색 Open API를 이용하여 책 검색하기](https://wayhome25.github.io/python/2017/07/15/naver-search-api/)
+- [slack을 활용한 신규도서, 반납도서 알림](https://wayhome25.github.io/django/2017/09/03/django-slack-bot/)
 - BaseUserManager, AbstractBaseUser 상속을 통한 User 모델 확장
+- [Coalesce를 사용하여 aggregate가 None을 반환하는 것을 방지하기](https://wayhome25.github.io/django/2017/09/02/django-queryset-aggregate-coalesce/)
 - email을 활용한 인증방식 적용 (username > email)
 - [imagekit 라이브러리를 활용한 이미지 처리](https://wayhome25.github.io/django/2017/05/11/image-thumbnail/)
 - 개발환경 PostgreSQL 적용
